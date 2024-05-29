@@ -10,4 +10,6 @@ class Influencers(models.Model):
     aut_eng = models.IntegerField()
     avg_eng = models.IntegerField()
 
-    
+    #Poner el nombre de username en la base de datos
+    def __str__(self):
+        return self.username 
