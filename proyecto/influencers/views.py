@@ -8,7 +8,7 @@ from influencers.utils import string_to_number  # Reemplaza 'myapp' y 'MyModel' 
 def mainpage(request):
     return HttpResponse('Hello world!')
 
-def upload(request):
+def upload(request, influencer_id):
     with open('static/top_1000_instagrammers.csv', 'r') as file:
         Influencers.objects.all().delete()
         reader = csv.reader(file, delimiter=";")
@@ -27,3 +27,8 @@ def upload(request):
             # Crea una nueva instancia del modelo y guárdala en la base de datos
             Influencers.objects.create(username=Name, rank=Rank, category=Category, followers=Followers, audience_country=Audience_Country, aut_eng=Authentic_Engagement, avg_eng=Engagement_average)
     return HttpResponse("OK")
+def influencers_main(request):
+    return HttpResponse('Hola')
+def influencer(request, influencer_id):
+    return HttpResponse(f'Este es el influencer N° {influencer_id}')
+    
