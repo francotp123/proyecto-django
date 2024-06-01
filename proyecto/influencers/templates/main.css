@@ -1,1 +1,13 @@
+body{
+    background-image: url(https://t4.ftcdn.net/jpg/06/55/50/69/360_F_655506911_1p13PsGKM93SuCePkLUcd75TW1Bzu4jg.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Montserrat', sans-serif;
+}
 
+.most_short{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 16px; 
+}
