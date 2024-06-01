@@ -1,9 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 import csv
-from django.core.management.base import BaseCommand
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+from influencers.utils import string_to_number
 from influencers.models import Influencers
-from influencers.utils import string_to_number  # Reemplaza 'myapp' y 'MyModel' con los nombres de tu aplicación y modelo
+from io import BytesIO
+import base64  
 # Create your views here.
 def mainpage(request):
     return HttpResponse('Hello world!')
@@ -27,8 +30,38 @@ def upload(request, influencer_id):
             # Crea una nueva instancia del modelo y guárdala en la base de datos
             Influencers.objects.create(username=Name, rank=Rank, category=Category, followers=Followers, audience_country=Audience_Country, aut_eng=Authentic_Engagement, avg_eng=Engagement_average)
     return HttpResponse("OK")
-def influencers_main(request):
-    return HttpResponse('Hola')
+def influencers_top5(request):
+    # Recupera los primeros 5 elementos del modelo según un atributo específico
+    datos = Influencers.objects.order_by('-followers')[1:6]
+    # Extrae los valores de los atributos para el gráfico de barras
+    etiquetas = [obj.username for obj in datos]
+    valores1 = [obj.followers for obj in datos]
+    print (valores1)
+    # Crea el gráfico de barras
+    plt.figure(figsize=(10, 6))
+
+    plt.bar(etiquetas, valores1, color='blue', label='Atributo 1')
+    
+    plt.xlabel('Influencers')
+    plt.ylabel('Segiodores')
+    plt.title('Gráfico de Barras - Top 5')
+        # Formatear las etiquetas del eje y para mostrar los números completos
+    def y_formatter(x, pos):
+        return f'{int(x):,}'.replace(',', ' ')
+
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(y_formatter))
+
+    # Guarda el gráfico en un objeto BytesIO
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    buffer.close()
+    
+    # Pasa la imagen codificada a la plantilla
+    return render(request, 'influencers_top5.html', {'image_base64': image_base64})
+
+
 def influencer(request, influencer_id):
     return HttpResponse(f'Este es el influencer N° {influencer_id}')
     
