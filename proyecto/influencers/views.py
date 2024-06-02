@@ -43,7 +43,7 @@ def influencers_top5(request):
     plt.bar(etiquetas, valores1, color='blue', label='Atributo 1')
     
     plt.xlabel('Influencers')
-    plt.ylabel('Segiodores')
+    plt.ylabel('Seguidores')
     plt.title('Gráfico de Barras - Top 5')
         # Formatear las etiquetas del eje y para mostrar los números completos
     def y_formatter(x, pos):
