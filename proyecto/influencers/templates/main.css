@@ -25,7 +25,8 @@
     position: relative;
     border: none;
     font-size: 25px;
-    font-family: inherit;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
     cursor: pointer;
     color: #fff;
     width: 9em;
@@ -76,10 +77,23 @@
   }
   
 .buttons {
-    margin-top: 70px;
+    margin-top: 40px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 35px; /* Espacio entre los botones */
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones */
+    flex-wrap: wrap; 
   }
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    button {
+      font-size: 18px;
+      width: 7em;
+      height: 2.5em;
+    }
+  }
+
+.clearfix{
+    margin-top: 40px;
+}
 
