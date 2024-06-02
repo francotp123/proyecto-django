@@ -9,7 +9,7 @@ from io import BytesIO
 import base64  
 # Create your views here.
 def mainpage(request):
-    return HttpResponse('Hello world!')
+    return render(request, 'mainpage.html')
 
 def upload(request, influencer_id):
     with open('static/top_1000_instagrammers.csv', 'r') as file:
@@ -41,7 +41,7 @@ def influencers_top5(request):
     plt.figure(figsize=(10, 6))
 
     plt.bar(etiquetas, valores1, color='blue', label='Atributo 1')
-    
+
     plt.xlabel('Influencers')
     plt.ylabel('Seguidores')
     plt.title('Gráfico de Barras - Top 5')
