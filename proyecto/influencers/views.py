@@ -32,7 +32,7 @@ def upload(request, influencer_id):
     return HttpResponse("OK")
 def influencers_top5(request):
     # Recupera los primeros 5 elementos del modelo según un atributo específico
-    datos = Influencers.objects.order_by('-followers')[1:6]
+    datos = Influencers.objects.order_by('-followers')[:5]
     # Extrae los valores de los atributos para el gráfico de barras
     etiquetas = [obj.username for obj in datos]
     valores1 = [obj.followers for obj in datos]
@@ -59,9 +59,11 @@ def influencers_top5(request):
     buffer.close()
     
     # Pasa la imagen codificada a la plantilla
-    return render(request, 'influencers_top5.html', {'image_base64': image_base64})
+    return render(request, 'firstgraph.html', {'image_base64': image_base64})
 
 
 def influencer(request, influencer_id):
     return HttpResponse(f'Este es el influencer N° {influencer_id}')
+def tabla(request):
     
+    return render(request, 'tabla.html')

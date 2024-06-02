@@ -8,4 +8,5 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('top5/', views.influencers_top5, name='Influencers_top5'),
     path('<int:influencer_id>/', views.influencer, name='influencer'),
+    path('tabla/', views.tabla, name='tabla')
 ]
