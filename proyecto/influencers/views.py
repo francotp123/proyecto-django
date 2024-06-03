@@ -64,7 +64,7 @@ def influencers_top5(request):
 
 def influencer(request, influencer_id):
     return HttpResponse(f'Este es el influencer N° {influencer_id}')
-def tabla(request):
+#def tabla(request):
     
 def influencers_top10_avg(request):
     datos = Influencers.objects.order_by('-avg_eng')[:10]
