@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tabla</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Tabla De Influencers</h2>
+    
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Rank</th>
+            <th>Category</th>
+            <th>followers</th>
+            <th>Audience country</th>
+            <th>Authentic engagement</th>
+            <th>Average engagement</th>
+        </tr>
+        {% for influencer in influencers  %}
+        <tr>
+            <td>{{influencer.username }}</td>
+            <td>{{influencer.rank}}</td>
+            <td>{{influencer.category}}</td>
+            <td>{{influencer.followers}}</td>
+            <td>{{influencer.audience_country}}</td>
+            <td>{{influencer.aut_eng}}</td>
+            <td>{{influencer.avg_eng}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    </body>
+    </html>
