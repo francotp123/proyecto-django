@@ -64,6 +64,37 @@ def influencers_top5(request):
 
 def influencer(request, influencer_id):
     return HttpResponse(f'Este es el influencer N° {influencer_id}')
-def tabla(request):
+#def tabla(request):
     
-    return render(request, 'tabla.html')
+def influencers_top10_avg(request):
+    datos = Influencers.objects.order_by('-avg_eng')[:10]
+
+    # Extrae los valores de los atributos para el gráfico de barras
+    etiquetas_ = [obj.username for obj in datos]
+    valores1_ = [obj.avg_eng for obj in datos]
+
+    # Crea el gráfico de barras
+    plt.figure(figsize=(10, 6))
+
+    plt.bar(etiquetas_, valores1_, color='blue')
+    plt.xticks(rotation=45, ha='right')
+    plt.subplots_adjust(bottom=0.4)
+
+    plt.xlabel('Influencers')
+    plt.ylabel('Engagement Avg')
+    plt.title('Top 10 Influencers con mayor Engagement Avg')
+        # Formatear las etiquetas del eje y para mostrar los números completos
+    def y_formatter(x, pos):
+        return f'{int(x):,}'.replace(',', ' ')
+
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(y_formatter))
+
+    # Guarda el gráfico en un objeto BytesIO
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    buffer.close()
+    
+    # Pasa la imagen codificada a la plantilla
+    return render(request, 'influencers_top10_eng.html', {'image_base64': image_base64})

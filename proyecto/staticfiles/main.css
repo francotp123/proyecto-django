@@ -78,6 +78,7 @@
   
 .buttons {
     margin-top: 40px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
     gap: 20px; /* Espacio entre los botones */

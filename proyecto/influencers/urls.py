@@ -1,6 +1,8 @@
 from django.urls import path
 
 from influencers import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -8,5 +10,6 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('Influencers_top5/', views.influencers_top5, name='Influencers_top5'),
     path('<int:influencer_id>/', views.influencer, name='influencer'),
-    path('tabla/', views.tabla, name='tabla')
-]
+    path('top10_avg/', views.influencers_top10_avg, name='top10_avg') 
+    #path('tabla/', views.tabla, name='tabla')
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
