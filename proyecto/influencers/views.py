@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+import re
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import csv
 import matplotlib.pyplot as plt
@@ -11,8 +12,8 @@ import base64
 def mainpage(request):
     return render(request, 'mainpage.html')
 
-def upload(request, influencer_id):
-    with open('static/top_1000_instagrammers.csv', 'r') as file:
+def upload(request):
+    with open('staticfiles/top_1000_instagrammers.csv', 'r') as file:
         Influencers.objects.all().delete()
         reader = csv.reader(file, delimiter=";")
         next(reader)  # Ignora la primera fila si contiene encabezados
@@ -64,8 +65,12 @@ def influencers_top5(request):
 
 def influencer(request, influencer_id):
     return HttpResponse(f'Este es el influencer N° {influencer_id}')
-#def tabla(request):
-    
+def tabla(request):
+    influencers = Influencers.objects.all()
+    context = {
+        "influencers":influencers
+    }
+    return render(request, 'tabla2.html', context)
 def influencers_top10_avg(request):
     datos = Influencers.objects.order_by('-avg_eng')[:10]
 
@@ -98,3 +103,36 @@ def influencers_top10_avg(request):
     
     # Pasa la imagen codificada a la plantilla
     return render(request, 'influencers_top10_eng.html', {'image_base64': image_base64})
+
+
+import Levenshtein
+
+def unificar_categorias_similares(request):
+    # Obtener todas las categorías únicas en la base de datos excluyendo las vacías
+    categories = Influencers.objects.exclude(category__isnull=True).exclude(category__exact='').values_list('category', flat=True).distinct()
+    
+    print("hola", categories)
+
+    # Inicializar un diccionario para almacenar las categorías unificadas
+    categories_unified = {}
+    
+    # Unificar categorías basadas en similitudes
+    for category in categories:
+        # Comprobar si la categoría ya ha sido unificada
+        if category not in categories_unified:
+            # Buscar categorías similares
+            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 10]
+            
+            # Unificar todas las categorías similares a la primera categoría encontrada
+            for similar in similar_categories:
+                categories_unified[similar] = category
+    
+    print(categories_unified)
+
+    # Actualizar las categorías en la base de datos
+    for obj in Influencers.objects.all():
+        if obj.category in categories_unified:
+            obj.category = categories_unified[obj.category]
+            obj.save()
+    
+    return JsonResponse({'status': 'Categorías unificadas con éxito'})
