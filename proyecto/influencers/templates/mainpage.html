@@ -22,9 +22,9 @@
 
     <div class="buttons">
       <a href="{% url 'Influencers_top5' %}"><button>RANKING</button></a>
-      <button>TOP 10</button>
-      <button>PREDICCIÓN</button>
-      <button>TABLA</button>
+      <a href="{% url 'top10_avg' %}"><button>TOP 10</button>
+      <a href="{% url 'prediccion' %}"><button>PREDICCIÓN</button></a>
+      <a href="{% url 'tabla' %}"><button>TABLA</button></a>
     </div>
   
   <div class="container">

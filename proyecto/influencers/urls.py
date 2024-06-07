@@ -12,5 +12,6 @@ urlpatterns = [
     path('<int:influencer_id>/', views.influencer, name='influencer'),
     path('top10_avg/', views.influencers_top10_avg, name='top10_avg'),
     path('tabla/', views.tabla, name='tabla'),
-    path('unificar_cat/', views.unificar_categorias_similares, name='unificar_cat')
+    path('unificar_cat/', views.unificar_categorias_similares, name='unificar_cat'),
+    path('prediccion/', views.prediccion, name="prediccion")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
