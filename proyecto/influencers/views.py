@@ -102,7 +102,7 @@ def influencers_top10_avg(request):
     buffer.close()
     
     # Pasa la imagen codificada a la plantilla
-    return render(request, 'influencers_top10_eng.html', {'image_base64': image_base64})
+    return render(request, 'top10_eng.html', {'image_base64': image_base64})
 
 
 import Levenshtein
@@ -121,7 +121,7 @@ def unificar_categorias_similares(request):
         # Comprobar si la categoría ya ha sido unificada
         if category not in categories_unified:
             # Buscar categorías similares
-            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 10]
+            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 15]
             
             # Unificar todas las categorías similares a la primera categoría encontrada
             for similar in similar_categories:
@@ -136,3 +136,18 @@ def unificar_categorias_similares(request):
             obj.save()
     
     return JsonResponse({'status': 'Categorías unificadas con éxito'})
+def prediccion(request):
+    categories = Influencers.objects.exclude(category__isnull=True).exclude(category__exact='').values_list('category', flat=True).distinct()
+    print("hola", categories, len(categories))
+    
+    
+    
+    
+    context = {
+        "categories":categories
+
+
+
+    }
+
+    return render(request, "prediction.html", context)
