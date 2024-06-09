@@ -103,7 +103,7 @@ def influencers_top10_avg(request):
     buffer.close()
     
     # Pasa la imagen codificada a la plantilla
-    return render(request, 'influencers_top10_eng.html', {'image_base64': image_base64})
+    return render(request, 'top10_eng.html', {'image_base64': image_base64})
 
 
 import Levenshtein

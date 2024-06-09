@@ -1,9 +1,15 @@
-header {
-    display: flex; /* Agregar Flexbox a header */
-    align-items: center; /* Centrar elementos verticalmente */
-    justify-content: space-between; /* Espacio entre elementos para centrar el título y alinear el botón a la derecha */
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Opcional: añade un fondo al header */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    font-weight: 600;
+    text-align: center !important; 
+}
+
+body {
+    background: linear-gradient(to right, rgba(240, 148, 51, 0.7), rgba(230, 104, 60, 0.7), rgba(220, 39, 67, 0.7), rgba(204, 35, 102, 0.7), rgba(188, 24, 136, 0.7), rgba(157, 32, 126, 0.7), rgba(121, 59, 117, 0.7), rgba(77, 97, 117, 0.7));
 }
 
 .title{
@@ -15,23 +21,12 @@ header {
       0px 0px 7px purple;
 }
 
-body{
-    font-family:'Montserrat', sans-serif;
-    color: white;
-    background-image: url(BackgroundRanking.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-}
-h2{
-    margin-top: 30px;
-    text-shadow: 4px 4px black;
-    -webkit-text-stroke-color: #fff;
-    -webkit-text-stroke-width: 1px;
-}
-p{
-    margin-top: 40px;
-    font-size: large;
+header {
+    display: flex; /* Agregar Flexbox a header */
+    align-items: center; /* Centrar elementos verticalmente */
+    justify-content: space-between; /* Espacio entre elementos para centrar el título y alinear el botón a la derecha */
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5); /* Opcional: añade un fondo al header */
 }
 
 .Btn {
@@ -46,7 +41,7 @@ p{
     position: relative;
     overflow: hidden;
     transition-duration: .3s;
-    background-color: rgb(138, 11, 170);
+    background-color: rgb(255, 65, 65);
   }
   
   /* plus sign */
