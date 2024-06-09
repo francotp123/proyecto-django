@@ -8,6 +8,7 @@ from influencers.utils import string_to_number
 from influencers.models import Influencers
 from io import BytesIO
 import base64  
+from influencers.forms import CategoryForm
 # Create your views here.
 def mainpage(request):
     return render(request, 'mainpage.html')
@@ -136,18 +137,16 @@ def unificar_categorias_similares(request):
             obj.save()
     
     return JsonResponse({'status': 'Categorías unificadas con éxito'})
+
 def prediccion(request):
-    categories = Influencers.objects.exclude(category__isnull=True).exclude(category__exact='').values_list('category', flat=True).distinct()
-    print("hola", categories, len(categories))
-    
-    
-    
-    
-    context = {
-        "categories":categories
+    top_instagrammer = None
 
-
-
-    }
-
-    return render(request, "prediction.html", context)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            top_instagrammer = Influencers.objects.filter(category=category).order_by('-followers').first()
+    else:
+        form = CategoryForm()
+    
+    return render(request, 'prediction.html', {'form': form, 'top_instagrammer': top_instagrammer})
