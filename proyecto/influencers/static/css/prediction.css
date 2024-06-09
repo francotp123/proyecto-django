@@ -30,6 +30,7 @@ h1{
 }
 p{
     margin-top: 40px;
+
     font-family: 'Montserrat', sans-serif;
     font-weight: 500; /* Aplicar negrita */
     font-size: 20px;
@@ -100,3 +101,30 @@ p{
   .Btn:active {
     transform: translate(2px ,2px);
   }
+  /* estos son los estilos del formulario
+/* Estilos para el formulario */
+form {
+  margin: 20px;
+}
+
+.form-select {
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+button[type="submit"] {
+  width: 100%;
+
+}
+/* Media queries para pantallas de tamaño de celular */
+select{
+  width: 100%;
+}
