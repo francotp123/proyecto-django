@@ -1,8 +1,3 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 th {
     font-weight: 600;
     text-align: center !important; 
@@ -26,7 +21,7 @@ header {
     align-items: center; /* Centrar elementos verticalmente */
     justify-content: space-between; /* Espacio entre elementos para centrar el título y alinear el botón a la derecha */
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5); /* Opcional: añade un fondo al header */
+
 }
 
 .Btn {
@@ -41,7 +36,9 @@ header {
     position: relative;
     overflow: hidden;
     transition-duration: .3s;
-    background-color: rgb(255, 65, 65);
+
+    background-color: rgb(138, 11, 170);
+
   }
   
   /* plus sign */
@@ -81,7 +78,9 @@ header {
   .Btn:hover .sign {
     width: 30%;
     transition-duration: .3s;
-    padding-left: 20px;
+
+    padding-left: 10px;
+
   }
   /* hover effect button's text */
   .Btn:hover .text {
@@ -94,3 +93,4 @@ header {
   .Btn:active {
     transform: translate(2px ,2px);
   }
+
