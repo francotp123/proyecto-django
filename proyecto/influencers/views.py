@@ -8,6 +8,8 @@ from influencers.utils import string_to_number
 from influencers.models import Influencers
 from io import BytesIO
 import base64  
+from influencers.forms import CategoryForm
+import math
 # Create your views here.
 def mainpage(request):
     return render(request, 'mainpage.html')
@@ -59,8 +61,38 @@ def influencers_top5(request):
     image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     buffer.close()
     
+    followers = list(Influencers.objects.values_list('followers', flat=True))
+    
+    if not followers:
+        return render(request, 'stats/statistics.html', {'error': 'No data available'})
+
+    # Calcula estadísticos básicos
+    count = len(followers)
+    mean = sum(followers) / count
+    min_value = min(followers)
+    max_value = max(followers)
+    sorted_data = sorted(followers)
+    
+    # Calcula la mediana
+    if count % 2 == 0:
+        median = (sorted_data[count // 2 - 1] + sorted_data[count // 2]) / 2
+    else:
+        median = sorted_data[count // 2]
+
+    statistics = {
+        'count': count,
+        'mean': mean,
+        'min': min_value,
+        'max': max_value,
+        'median': median,
+    }
     # Pasa la imagen codificada a la plantilla
-    return render(request, 'firstgraph.html', {'image_base64': image_base64})
+    context = {
+        'image_base64': image_base64,
+        'statistics' : statistics
+
+    }
+    return render(request, 'firstgraph.html', context)
 
 
 def influencer(request, influencer_id):
@@ -136,18 +168,16 @@ def unificar_categorias_similares(request):
             obj.save()
     
     return JsonResponse({'status': 'Categorías unificadas con éxito'})
+
 def prediccion(request):
-    categories = Influencers.objects.exclude(category__isnull=True).exclude(category__exact='').values_list('category', flat=True).distinct()
-    print("hola", categories, len(categories))
-    
-    
-    
-    
-    context = {
-        "categories":categories
+    top_instagrammer = None
 
-
-
-    }
-
-    return render(request, "prediction.html", context)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            top_instagrammer = Influencers.objects.filter(category=category).order_by('-followers').first()
+    else:
+        form = CategoryForm()
+    
+    return render(request, 'prediction.html', {'form': form, 'top_instagrammer': top_instagrammer})
