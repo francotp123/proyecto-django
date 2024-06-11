@@ -1,3 +1,4 @@
+#Convertimos los datos str a int
 def string_to_number(textNumber):
     if textNumber[-1] == 'M':
         num_str = textNumber.replace('M', '')
