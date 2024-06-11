@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+#Creamos la base de datos para subir el dataset.
 class Influencers(models.Model):
     username = models.CharField(max_length=200)
     rank = models.IntegerField()
