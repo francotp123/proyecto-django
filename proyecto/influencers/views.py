@@ -11,16 +11,18 @@ import base64
 from influencers.forms import CategoryForm
 import math
 # Create your views here.
+
+#html main
 def mainpage(request):
     return render(request, 'mainpage.html')
 
+#Subir el dataset al modelo convirtiendo los datos con la función.
 def upload(request):
     with open('staticfiles/top_1000_instagrammers.csv', 'r') as file:
         Influencers.objects.all().delete()
         reader = csv.reader(file, delimiter=";")
         next(reader)  # Ignora la primera fila si contiene encabezados
         for row in reader:
-            # Suponiendo que el orden de las columnas en el CSV es nombre, edad, correo
             Name, Rank, Category, Followers, Audience_Country, Authentic_Engagement, Engagement_average = row
             # convertir rank a numero
             Rank = string_to_number(Rank)
@@ -39,7 +41,7 @@ def influencers_top5(request):
     # Extrae los valores de los atributos para el gráfico de barras
     etiquetas = [obj.username for obj in datos]
     valores1 = [obj.followers for obj in datos]
-    print (valores1)
+
     # Crea el gráfico de barras
     plt.figure(figsize=(10, 6))
 
@@ -61,7 +63,7 @@ def influencers_top5(request):
     image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     buffer.close()
     
-    followers = list(Influencers.objects.values_list('followers', flat=True))
+    followers = list(Influencers.objects.values_list('followers', flat=True)) #Crea una lista con la cantidad de seguidores.
     
     if not followers:
         return render(request, 'stats/statistics.html', {'error': 'No data available'})
@@ -79,7 +81,7 @@ def influencers_top5(request):
     else:
         median = sorted_data[count // 2]
 
-    statistics = {
+    statistics = {        #Diccionario con los datos estadísticos 
         'count': count,
         'mean': mean,
         'min': min_value,
@@ -94,15 +96,15 @@ def influencers_top5(request):
     }
     return render(request, 'firstgraph.html', context)
 
-
-def influencer(request, influencer_id):
-    return HttpResponse(f'Este es el influencer N° {influencer_id}')
+#View para la tabla
 def tabla(request):
     influencers = Influencers.objects.all()
     context = {
         "influencers":influencers
     }
     return render(request, 'tabla2.html', context)
+
+#View para el top 10
 def influencers_top10_avg(request):
     datos = Influencers.objects.order_by('-avg_eng')[:10]
 
@@ -137,7 +139,7 @@ def influencers_top10_avg(request):
     return render(request, 'top10_eng.html', {'image_base64': image_base64})
 
 
-import Levenshtein
+import Levenshtein  
 
 def unificar_categorias_similares(request):
     # Obtener todas las categorías únicas en la base de datos excluyendo las vacías
@@ -168,40 +170,33 @@ def unificar_categorias_similares(request):
             obj.save()
     
     return JsonResponse({'status': 'Categorías unificadas con éxito'})
-"""
-def prediccion(request):
-    top_instagrammer = None
 
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            category = form.cleaned_data['category']
-            top_instagrammer = Influencers.objects.filter(category=category).order_by('-followers').first()
-    else:
-        form = CategoryForm()
-    
-    return render(request, 'prediction.html', {'form': form, 'top_instagrammer': top_instagrammer})
-"""
+
+#View predicción
 def prediccion(request):
-    influencer = None
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
+    influencer = None # Inicializa la variable influencer con None
+    if request.method == 'POST': # Verifica si la solicitud es de tipo POST
+        form = CategoryForm(request.POST) # Crea una instancia del formulario con los datos POST
+        if form.is_valid(): # Verifica si los datos del formulario son válidos
+            # Extrae los datos limpios del formulario
             category = form.cleaned_data['category']
             company_size = form.cleaned_data['company_size']
             audience_country = form.cleaned_data['audience_country']
 
+            # Filtra los influencers según la categoría y el país de la audiencia, y los ordena por seguidores en orden descendente
             influencers = Influencers.objects.filter(category=category, audience_country=audience_country).order_by('-followers')
 
-            if company_size == 'large' and influencers:
-                influencer = influencers.first()
-            elif company_size == 'small' and influencers:
-                influencer = influencers.last()
-            elif company_size == 'medium' and influencers:
-                middle_index = len(influencers) // 2
-                influencer = influencers[middle_index]
+            # Selecciona un influencer basado en el tamaño de la empresa
+            if company_size == 'large' and influencers: # Si la empresa es grande y hay influencers
+                influencer = influencers.first()  # Selecciona el influencer con más seguidores
+            elif company_size == 'small' and influencers: # Si la empresa es pequeña y hay influencers
+                influencer = influencers.last() # Selecciona el influencer con menos seguidores
+            elif company_size == 'medium' and influencers: # Si la empresa es mediana y hay influencers
+                middle_index = len(influencers) // 2 # Calcula el índice medio
+                influencer = influencers[middle_index] # Selecciona el influencer en la posición media
 
     else:
-        form = CategoryForm()
+        form = CategoryForm() # Si la solicitud no es POST, crea una instancia vacía del formulario
 
+    # Renderiza la plantilla 'prediction.html' con el formulario y el influencer seleccionado (si hay alguno)
     return render(request, 'prediction.html', {'form': form, 'influencer': influencer})

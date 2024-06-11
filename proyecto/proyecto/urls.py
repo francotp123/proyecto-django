@@ -19,5 +19,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('influencers/', include('influencers.urls') )
+    path('influencers/', include('influencers.urls') )  #Redirecciona la url /influencers/ al archivo urls que está en la aplicación
 ]

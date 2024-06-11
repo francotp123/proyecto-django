@@ -6,12 +6,11 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.mainpage, name='mainpage'),
-    path('upload/', views.upload, name='upload'),
-    path('Influencers_top5/', views.influencers_top5, name='Influencers_top5'),
-    path('<int:influencer_id>/', views.influencer, name='influencer'),
-    path('top10_avg/', views.influencers_top10_avg, name='top10_avg'),
-    path('tabla/', views.tabla, name='tabla'),
-    path('unificar_cat/', views.unificar_categorias_similares, name='unificar_cat'),
-    path('prediccion/', views.prediccion, name="prediccion")
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('', views.mainpage, name='mainpage'), #Página principal
+    path('upload/', views.upload, name='upload'), #Sube el dataset al model
+    path('Influencers_top5/', views.influencers_top5, name='Influencers_top5'), #Ranking y estadísticas 
+    path('top10_avg/', views.influencers_top10_avg, name='top10_avg'), #Top 10
+    path('tabla/', views.tabla, name='tabla'), #Tabla
+    path('unificar_cat/', views.unificar_categorias_similares, name='unificar_cat'), #Cuando se ejecuta unifica categorías
+    path('prediccion/', views.prediccion, name="prediccion")  #Predicción
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
