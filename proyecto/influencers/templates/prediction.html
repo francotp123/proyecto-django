@@ -33,22 +33,33 @@
         <!-- Formulario de selección de categoría -->
         <form method="post" class="m-4">
           {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="mb-3">
+              {{ form.category.label_tag }}
+              {{ form.category }}
+          </div>
+          <div class="mb-3">
+              {{ form.company_size.label_tag }}
+              {{ form.company_size }}
+          </div>
+          <div class="mb-3">
+              {{ form.audience_country.label_tag }}
+              {{ form.audience_country }}
+          </div>
+          <button type="submit" class="btn btn-primary mt-3 w-100">Submit</button>
       </form>
 
-      <!-- Mostrar el resultado del Instagrammer con más seguidores -->
-      {% if top_instagrammer %}
-          <div class="m-4 p-4 bg-light text-dark rounded">
-              <h3>Top Instagrammer en la categoría {{ top_instagrammer.category }}</h3>
-              <p><strong>Nombre:</strong> {{ top_instagrammer.username }}</p>
-              <p><strong>Seguidores:</strong> {{ top_instagrammer.followers }}</p>
-          </div>
+      {% if influencer %}
+      <div class="alert alert-success mt-4">
+          <h4>Influencer recomendado:</h4>
+          <p><strong>Nombre:</strong> {{ influencer.username }}</p>
+          <p><strong>Seguidores:</strong> {{ influencer.followers }}</p>
+      </div>
+      {% else %}
+      <div class="alert alert-danger mt-4">
+          <h4>No se encontró ningún influencer</h4>
+          <p>Lamentablemente, no hemos podido encontrar un influencer que cumpla con los criterios de búsqueda proporcionados.</p>
+      </div>
       {% endif %}
-        
-
-        </div>
-
     </main>
     
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

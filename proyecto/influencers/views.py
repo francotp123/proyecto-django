@@ -168,7 +168,7 @@ def unificar_categorias_similares(request):
             obj.save()
     
     return JsonResponse({'status': 'Categorías unificadas con éxito'})
-
+"""
 def prediccion(request):
     top_instagrammer = None
 
@@ -181,3 +181,27 @@ def prediccion(request):
         form = CategoryForm()
     
     return render(request, 'prediction.html', {'form': form, 'top_instagrammer': top_instagrammer})
+"""
+def prediccion(request):
+    influencer = None
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            company_size = form.cleaned_data['company_size']
+            audience_country = form.cleaned_data['audience_country']
+
+            influencers = Influencers.objects.filter(category=category, audience_country=audience_country).order_by('-followers')
+
+            if company_size == 'large' and influencers:
+                influencer = influencers.first()
+            elif company_size == 'small' and influencers:
+                influencer = influencers.last()
+            elif company_size == 'medium' and influencers:
+                middle_index = len(influencers) // 2
+                influencer = influencers[middle_index]
+
+    else:
+        form = CategoryForm()
+
+    return render(request, 'prediction.html', {'form': form, 'influencer': influencer})

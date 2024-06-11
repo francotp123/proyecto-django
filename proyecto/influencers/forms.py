@@ -2,8 +2,14 @@ from django import forms
 from influencers.models import Influencers
 
 class CategoryForm(forms.Form):
-    category = forms.ChoiceField(choices=[])
+    CATEGORY_CHOICES = [(category, category) for category in Influencers.objects.values_list('category', flat=True).distinct()]
+    COUNTRY_CHOICES = [(country, country) for country in Influencers.objects.values_list('audience_country', flat=True).distinct()]
+    COMPANY_SIZE_CHOICES = [
+        ('large', 'Grande'),
+        ('medium', 'Mediana'),
+        ('small', 'Pequeña')
+    ]
 
-    def __init__(self, *args, **kwargs):
-        super(CategoryForm, self).__init__(*args, **kwargs)
-        self.fields['category'].choices = [(category, category) for category in Influencers.objects.values_list('category', flat=True).distinct()]
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
+    company_size = forms.ChoiceField(choices=COMPANY_SIZE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
+    audience_country = forms.ChoiceField(choices=COUNTRY_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
