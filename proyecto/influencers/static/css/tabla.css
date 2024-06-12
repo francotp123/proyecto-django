@@ -3,8 +3,14 @@ th {
     text-align: center !important; 
 }
 
-body {
-    background: linear-gradient(to right, rgba(240, 148, 51, 0.7), rgba(230, 104, 60, 0.7), rgba(220, 39, 67, 0.7), rgba(204, 35, 102, 0.7), rgba(188, 24, 136, 0.7), rgba(157, 32, 126, 0.7), rgba(121, 59, 117, 0.7), rgba(77, 97, 117, 0.7));
+.table-container {
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto; /* Si necesitas scroll */
+}
+
+body{
+  background: linear-gradient(to right, rgba(240, 148, 51, 0.7), rgba(230, 104, 60, 0.7), rgba(220, 39, 67, 0.7), rgba(204, 35, 102, 0.7), rgba(188, 24, 136, 0.7), rgba(157, 32, 126, 0.7), rgba(121, 59, 117, 0.7), rgba(77, 97, 117, 0.7)); /* Ruta a tu imagen */
 }
 
 .title{
