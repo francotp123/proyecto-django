@@ -1,98 +1,136 @@
-th {
-    font-weight: 600;
-    text-align: center !important; 
+body {
+  background: linear-gradient(to right, rgba(240, 148, 51, 0.7), rgba(230, 104, 60, 0.7), rgba(220, 39, 67, 0.7), rgba(204, 35, 102, 0.7), rgba(188, 24, 136, 0.7), rgba(157, 32, 126, 0.7), rgba(121, 59, 117, 0.7), rgba(77, 97, 117, 0.7));
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+  margin-top: 30px;
+  color: white;
+  animation: blur .75s ease-out infinite;
+  text-shadow: 0px 0px 5px white, 0px 0px 7px purple;
+  margin-left: 5%;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+
+}
+
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  background-color: rgb(138, 11, 170);
+  margin: auto; /* Center the button */
+}
+
+.sign {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: white;
+}
+
+.text {
+  position: absolute;
+  right: 0;
+  width: 0;
+  opacity: 0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+
+.Btn:hover {
+  width: 125px;
+  border-radius: 40px;
+  transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 10px;
+}
+
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+
+.Btn:active {
+  transform: translate(2px, 2px);
 }
 
 .table-container {
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: auto; /* Si necesitas scroll */
+  overflow: auto;
+  max-width: 90%; /* Limits the max width of the table container */
+  margin: 0 auto; /* Centers the table container */
 }
 
-body{
-  background: linear-gradient(to right, rgba(240, 148, 51, 0.7), rgba(230, 104, 60, 0.7), rgba(220, 39, 67, 0.7), rgba(204, 35, 102, 0.7), rgba(188, 24, 136, 0.7), rgba(157, 32, 126, 0.7), rgba(121, 59, 117, 0.7), rgba(77, 97, 117, 0.7)); /* Ruta a tu imagen */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-.title{
-    text-align: center;
-    margin-top: 30px;
-    color: white;
-    animation:blur .75s ease-out infinite;
-    text-shadow:0px 0px 5px white,
-      0px 0px 7px purple;
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
 }
 
-header {
-    display: flex; /* Agregar Flexbox a header */
-    align-items: center; /* Centrar elementos verticalmente */
-    justify-content: space-between; /* Espacio entre elementos para centrar el título y alinear el botón a la derecha */
-    padding: 10px;
-    
+th {
+  font-weight: 600;
+  text-align: center !important;
 }
 
-.Btn {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 45px;
-    height: 45px;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-    background-color: rgb(138, 11, 170);
-  }
-  
-  /* plus sign */
-  .sign {
-    width: 100%;
-    transition-duration: .3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .sign svg {
-    width: 17px;
-  }
-  
-  .sign svg path {
-    fill: white;
-  }
-  /* text */
-  .text {
-    position: absolute;
-    right: 0%;
-    width: 0%;
-    opacity: 0;
-    color: white;
-    font-size: 1.2em;
-    font-weight: 600;
-    transition-duration: .3s;
-  }
-  /* hover effect on button width */
-  .Btn:hover {
-    width: 125px;
-    border-radius: 40px;
-    transition-duration: .3s;
-  }
-  
-  .Btn:hover .sign {
-    width: 30%;
-    transition-duration: .3s;
-    padding-left: 10px;
-  }
-  /* hover effect button's text */
-  .Btn:hover .text {
-    opacity: 1;
-    width: 70%;
-    transition-duration: .3s;
-    padding-right: 10px;
-  }
-  /* button click effect*/
-  .Btn:active {
-    transform: translate(2px ,2px);
-  }
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allows pagination links to wrap */
+  padding: 10px 0;
+}
+
+.pagination a {
+  margin: 5px;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  background-color: #333;
+  color: white;
+}
 

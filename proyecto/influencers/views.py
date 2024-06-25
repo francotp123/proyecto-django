@@ -10,6 +10,10 @@ from io import BytesIO
 import base64  
 from influencers.forms import CategoryForm
 import math
+from django.core.paginator import Paginator
+import numpy as np
+import pandas as pd
+import seaborn as sns
 # Create your views here.
 
 #html main
@@ -98,9 +102,14 @@ def influencers_top5(request):
 
 #View para la tabla
 def tabla(request):
-    influencers = Influencers.objects.all()
+    influencers_list = Influencers.objects.all()
+    paginator = Paginator(influencers_list, 50)  # Mostrar 50 influencers por página
+
+    page_number = request.GET.get('page')
+    influencers = paginator.get_page(page_number)
+
     context = {
-        "influencers":influencers
+        "influencers": influencers
     }
     return render(request, 'tabla2.html', context)
 
@@ -135,8 +144,36 @@ def influencers_top10_avg(request):
     image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     buffer.close()
     
-    # Pasa la imagen codificada a la plantilla
-    return render(request, 'top10_eng.html', {'image_base64': image_base64})
+    influencers = Influencers.objects.all()
+    followers = [influencer.followers for influencer in influencers]
+    avg_eng = [influencer.avg_eng for influencer in influencers]
+    correlation = np.corrcoef(followers, avg_eng)[0, 1]
+
+    # Crear una figura de matplotlib para el heatmap
+    plt.figure(figsize=(8, 6))
+    sns.set(style="whitegrid")  # Estilo del heatmap
+    data = np.corrcoef(followers, avg_eng)
+    sns.heatmap(data, annot=True, cmap='coolwarm', square=True,
+                xticklabels=['Followers', 'Avg Engagement'], yticklabels=['Followers', 'Avg Engagement'],
+                cbar_kws={'shrink': 0.7})
+    plt.title('Matriz de Correlación entre Followers y Avg Engagement')
+    plt.xlabel('Features')
+    plt.ylabel('Features')
+
+    # Guardar el gráfico en un objeto BytesIO
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_base = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    buffer.close()
+
+    context = {
+        'image_base64': image_base64,
+        'correlation_matrix': image_base,
+    }
+
+    # Renderizar la plantilla 'top10_eng.html' con los datos
+    return render(request, 'top10_eng.html', context)
 
 
 import Levenshtein  
@@ -155,7 +192,7 @@ def unificar_categorias_similares(request):
         # Comprobar si la categoría ya ha sido unificada
         if category not in categories_unified:
             # Buscar categorías similares
-            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 15]
+            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 25]
             
             # Unificar todas las categorías similares a la primera categoría encontrada
             for similar in similar_categories:
