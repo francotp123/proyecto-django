@@ -211,29 +211,28 @@ def unificar_categorias_similares(request):
 
 #View predicción
 def prediccion(request):
-    influencer = None # Inicializa la variable influencer con None
-    if request.method == 'POST': # Verifica si la solicitud es de tipo POST
-        form = CategoryForm(request.POST) # Crea una instancia del formulario con los datos POST
-        if form.is_valid(): # Verifica si los datos del formulario son válidos
+    influencers = []  # Inicializa la variable influencers como una lista vacía
+    if request.method == 'POST':  # Verifica si la solicitud es de tipo POST
+        form = CategoryForm(request.POST)  # Crea una instancia del formulario con los datos POST
+        if form.is_valid():  # Verifica si los datos del formulario son válidos
             # Extrae los datos limpios del formulario
             category = form.cleaned_data['category']
             company_size = form.cleaned_data['company_size']
             audience_country = form.cleaned_data['audience_country']
 
             # Filtra los influencers según la categoría y el país de la audiencia, y los ordena por seguidores en orden descendente
-            influencers = Influencers.objects.filter(category=category, audience_country=audience_country).order_by('-followers')
+            influencers_queryset = Influencers.objects.filter(category=category, audience_country=audience_country).order_by('-followers')
 
-            # Selecciona un influencer basado en el tamaño de la empresa
-            if company_size == 'large' and influencers: # Si la empresa es grande y hay influencers
-                influencer = influencers.first()  # Selecciona el influencer con más seguidores
-            elif company_size == 'small' and influencers: # Si la empresa es pequeña y hay influencers
-                influencer = influencers.last() # Selecciona el influencer con menos seguidores
-            elif company_size == 'medium' and influencers: # Si la empresa es mediana y hay influencers
-                middle_index = len(influencers) // 2 # Calcula el índice medio
-                influencer = influencers[middle_index] # Selecciona el influencer en la posición media
-
+            # Selecciona hasta 5 influencers basados en el tamaño de la empresa
+            if company_size == 'large' and influencers_queryset:
+                influencers = influencers_queryset[:5]  # Selecciona los 5 influencers con más seguidores
+            elif company_size == 'small' and influencers_queryset:
+                influencers = influencers_queryset.reverse()[:5]  # Selecciona los 5 influencers con menos seguidores
+            elif company_size == 'medium' and influencers_queryset:
+                middle_index = len(influencers_queryset) // 2
+                influencers = influencers_queryset[middle_index:middle_index + 5]  # Selecciona 5 influencers desde la posición media
     else:
-        form = CategoryForm() # Si la solicitud no es POST, crea una instancia vacía del formulario
+        form = CategoryForm()  # Si la solicitud no es POST, crea una instancia vacía del formulario
 
-    # Renderiza la plantilla 'prediction.html' con el formulario y el influencer seleccionado (si hay alguno)
-    return render(request, 'prediction.html', {'form': form, 'influencer': influencer})
+    # Renderiza la plantilla 'prediction.html' con el formulario y los influencers seleccionados (si hay alguno)
+    return render(request, 'prediction.html', {'form': form, 'influencers': influencers})
