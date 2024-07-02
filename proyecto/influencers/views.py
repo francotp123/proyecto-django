@@ -192,7 +192,7 @@ def unificar_categorias_similares(request):
         # Comprobar si la categoría ya ha sido unificada
         if category not in categories_unified:
             # Buscar categorías similares
-            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 25]
+            similar_categories = [cat for cat in categories if Levenshtein.distance(category.lower(), cat.lower()) < 15]
             
             # Unificar todas las categorías similares a la primera categoría encontrada
             for similar in similar_categories:

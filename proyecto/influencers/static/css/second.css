@@ -81,7 +81,9 @@ p{
     width: 125px;
     border-radius: 40px;
     transition-duration: .3s;
-  }
+    background-color: rgb(138, 11, 170); /* Reafirma el color de fondo */
+}
+
   
   .Btn:hover .sign {
     width: 30%;
@@ -99,3 +101,9 @@ p{
   .Btn:active {
     transform: translate(2px ,2px);
   }
+
+ .matriz_cor{
+  text-shadow: 4px 4px black;
+  -webkit-text-stroke-color: #fff;
+  -webkit-text-stroke-width: 1px;
+ }
