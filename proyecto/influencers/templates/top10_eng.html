@@ -38,13 +38,27 @@
         <img src="data:image/png;base64,{{ image_base64}}" class="img-fluid" alt="top 5 graph">
         
 
-        <!-- Correlation Matrix Section -->
-        <div class="correlation-section mt-4">
-            <h3>Matriz de Correlación</h3>
-            <img src="data:image/png;base64,{{correlation_matrix}}" class="img-fluid" alt="top 5 graph">
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="correlation-section mt-4">
+                    <h3 class="matriz_cor">Matriz de Correlación</h3>
+                    <img src="data:image/png;base64,{{correlation_matrix}}" class="img-fluid" alt="top 5 graph">
+                </div>
+            </div>
+            <div class="col-12 col-md-6" style="margin-top: 55px;">
+                <h1 style="font-family: 'Montserrat', sans-serif; font-weight: bold; text-shadow: 1px 1px 4px rgba(0, 0, 0, 1); ">
+                    Explicación:
+                </h1>
+                <h4 style="font-family: 'Montserrat', sans-serif; font-weight: bold; margin-top: 15px; text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);">
+                    La matriz de correlación nos muestra que la cantidad de seguidores está poco relacionada con la interacción que tienen los Instagrammers con los usuarios.
+                </h4>
+            </div>
         </div>
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
